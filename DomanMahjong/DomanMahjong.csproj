@@ -8,7 +8,7 @@
     <Punchline>A short one-liner that shows up in /xlplugins.</Punchline>
     <Description>A brief overview of what your plugin does, highlighting its key features.
 This is shown when the user expands the plugin entry in /xlplugins.</Description>
-    <RepoUrl>https://github.com/goatcorp/SamplePlugin</RepoUrl>
+    <RepoUrl>https://github.com/iTaterLove/DomanMahjong</RepoUrl>
     <Tags>sample;plugin;goats</Tags>
   </PropertyGroup>
 
