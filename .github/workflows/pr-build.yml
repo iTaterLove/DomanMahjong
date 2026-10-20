@@ -10,7 +10,7 @@ jobs:
     runs-on: windows-2022
 
     env:
-      Solution_Name: SamplePlugin
+      Solution_Name: DomanMahjong
 
     steps:
     - name: Checkout

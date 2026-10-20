@@ -3,13 +3,12 @@
   <PropertyGroup>
     <Version>0.0.0.1</Version>
     <!-- Manifest fields (see https://github.com/goatcorp/DalamudPackager/blob/827d88dc/DalamudPackager/DalamudPackager.cs#L420) -->
-    <Author>your name here</Author>
-    <Name>Sample Plugin</Name>
-    <Punchline>A short one-liner that shows up in /xlplugins.</Punchline>
-    <Description>A brief overview of what your plugin does, highlighting its key features.
-This is shown when the user expands the plugin entry in /xlplugins.</Description>
+    <Author>iTaterSalad</Author>
+    <Name>Doman Mahjong</Name>
+    <Punchline>Improve your Mahjong game by reading!</Punchline>
+    <Description>Attaches an explanation of common Riichi Mahjong terms to the Mahjong GUI.</Description>
     <RepoUrl>https://github.com/iTaterLove/DomanMahjong</RepoUrl>
-    <Tags>sample;plugin;goats</Tags>
+    <Tags>mahjong;plugin;yakuman</Tags>
   </PropertyGroup>
 
   <ItemGroup>
