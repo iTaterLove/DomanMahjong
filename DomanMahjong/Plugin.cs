@@ -18,7 +18,7 @@ public sealed class Plugin : IDalamudPlugin
     [PluginService] internal static IDataManager DataManager { get; private set; } = null!;
     [PluginService] internal static IPluginLog Log { get; private set; } = null!;
 
-    private const string CommandName = "/pmycommand";
+    private const string CommandName = "/mahjongguide";
 
     public Configuration Configuration { get; init; }
 
@@ -32,6 +32,7 @@ public sealed class Plugin : IDalamudPlugin
 
         // You might normally want to embed resources and load them from the manifest stream
         var goatImagePath = Path.Combine(PluginInterface.AssemblyLocation.Directory?.FullName!, "goat.png");
+        var folder = Path.Combine(PluginInterface.GetPluginConfigDirectory(), "pages");
 
         ConfigWindow = new ConfigWindow(this);
         MainWindow = new MainWindow(this, goatImagePath);
