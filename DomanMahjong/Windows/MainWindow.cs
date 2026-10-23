@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Numerics;
 using System.IO;
+using System.Numerics;
 using Dalamud.Bindings.ImGui;
-using Dalamud.Interface.Textures;
-using Dalamud.Interface.Utility;
-using Dalamud.Interface.Utility.Raii;
 using Dalamud.Interface.Windowing;
-using Lumina.Excel.Sheets;
 
 namespace DomanMahjong.Windows;
 
@@ -116,15 +112,18 @@ public class MainWindow : Window, IDisposable
             // Scale only the content, so the nav bar stays a constant size.
             ImGui.SetWindowFontScale(zoom);
  
-            foreach (var block in page.Blocks)
+            for (var i = 0; i < page.Blocks.Count; i++)
             {
-                switch (block)
+                switch (page.Blocks[i])
                 {
                     case TextBlock t:
                         ImGui.TextWrapped(t.Text);
                         break;
                     case ImageBlock img:
                         DrawImage(img);
+                        break;
+                    case TableBlock table:
+                        DrawTable(table, i);
                         break;
                 }
             }
@@ -135,7 +134,41 @@ public class MainWindow : Window, IDisposable
     }
 
 
-        private void DrawImage(ImageBlock img)
+    private static void DrawTable(TableBlock table, int index)
+    {
+        // Column count = the widest row (header included); short rows are padded with empty cells.
+        var columns = table.Header.Count;
+        foreach (var row in table.Rows)
+            columns = Math.Max(columns, row.Count);
+        if (columns == 0) return;
+ 
+        var flags = ImGuiTableFlags.Borders | ImGuiTableFlags.RowBg | ImGuiTableFlags.SizingStretchProp;
+ 
+        // The ID must be unique per table on the page, so it includes the block's position.
+        if (!ImGui.BeginTable($"##table{index}", columns, flags))
+            return;   // EndTable is only called when BeginTable returned true
+ 
+        if (table.Header.Count > 0)
+        {
+            for (var c = 0; c < columns; c++)
+                ImGui.TableSetupColumn(c < table.Header.Count ? table.Header[c] : string.Empty);
+            ImGui.TableHeadersRow();
+        }
+ 
+        foreach (var row in table.Rows)
+        {
+            ImGui.TableNextRow();
+            for (var c = 0; c < columns; c++)
+            {
+                ImGui.TableNextColumn();
+                ImGui.TextWrapped(c < row.Count ? row[c] : string.Empty);
+            }
+        }
+ 
+        ImGui.EndTable();
+    }
+
+    private void DrawImage(ImageBlock img)
     {
         // GetFileName strips any folders, so a page can't point outside the Data folder.
         var path = Path.Combine(imageFolder, Path.GetFileName(img.FileName));
@@ -159,7 +192,6 @@ public class MainWindow : Window, IDisposable
  
         ImGui.Image(wrap.Handle, size * scale);
     }
-
 
     private void HandleZoomInput(ImGuiIOPtr io)
     {

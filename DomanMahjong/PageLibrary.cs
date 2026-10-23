@@ -10,6 +10,8 @@ namespace DomanMahjong;
 public abstract record PageBlock;
 public sealed record TextBlock(string Text) : PageBlock;
 public sealed record ImageBlock(string FileName, int? Width) : PageBlock;
+public sealed record TableBlock(IReadOnlyList<string> Header, IReadOnlyList<IReadOnlyList<string>> Rows) : PageBlock;
+
 public sealed record Page(string Name, IReadOnlyList<PageBlock> Blocks);
 
 public sealed class PageLibrary : IDisposable
@@ -63,10 +65,13 @@ public sealed class PageLibrary : IDisposable
     private static readonly Regex ImageLine =
         new(@"^\s*\[img:\s*([^\]|]+?)\s*(?:\|\s*(\d+)\s*)?\]\s*$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
+    private static readonly Regex DividerCell = new(@"^:?-+:?$", RegexOptions.Compiled);
+
     private static IReadOnlyList<PageBlock> Parse(string raw)
     {
         var blocks = new List<PageBlock>();
         var text = new StringBuilder();
+        var tableLines = new List<string>();
 
         void FlushText()
         {
@@ -75,8 +80,26 @@ public sealed class PageLibrary : IDisposable
             text.Clear();
         }
 
-                foreach (var line in raw.Replace("\r\n", "\n").Split('\n'))
+        void FlushTable()
         {
+            if (tableLines.Count == 0) return;
+            blocks.Add(ParseTable(tableLines));
+            tableLines.Clear();
+        }
+
+
+        foreach (var line in raw.Replace("\r\n", "\n").Split('\n'))
+        {
+            // Consecutive lines that start with | form one table.
+            if (line.TrimStart().StartsWith('|'))
+            {
+                FlushText();
+                tableLines.Add(line);
+                continue;
+            }
+ 
+            FlushTable();
+ 
             var m = ImageLine.Match(line);
             if (m.Success)
             {
@@ -90,9 +113,39 @@ public sealed class PageLibrary : IDisposable
             }
         }
 
+
+        FlushTable();
         FlushText();
         return blocks;
     }
+
+    private static List<string> SplitRow(string line)
+    {
+        var t = line.Trim();
+        if (t.StartsWith('|')) t = t[1..];
+        if (t.EndsWith('|')) t = t[..^1];
+        return t.Split('|').Select(c => c.Trim()).ToList();
+    }
+ 
+    private static TableBlock ParseTable(List<string> lines)
+    {
+        var rows = lines.Select(SplitRow).ToList();
+        IReadOnlyList<string> header = Array.Empty<string>();
+ 
+        // A divider row (|---|---|) directly under the first row marks that first row as the header.
+        if (rows.Count >= 2 && rows[1].All(c => DividerCell.IsMatch(c)))
+        {
+            header = rows[0];
+            rows.RemoveRange(0, 2);
+        }
+        else
+        {
+            rows.RemoveAll(r => r.All(c => DividerCell.IsMatch(c)));   // ignore stray divider rows
+        }
+ 
+        return new TableBlock(header, rows.Cast<IReadOnlyList<string>>().ToList());
+    }
+
 
     private static string ReadShared(string path)
     {
