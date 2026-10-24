@@ -1,0 +1,9 @@
+A standard winning hand consists of four groups and a pair. Some winning hands, such as Seven Pairs and Thirteen orphans, are exceptions to this rule.
+
+| Term | Meaning | Example |
+| Straights | Three consecutive numbered tiles in the same suit | 3-4-5 Pinzu |
+| Triplets | Three identical tiles | 7-7-7 Souzu |
+| Kantsu | Four identical tiles declared as a kan | 2-2-2-2 Manzu |
+| Toitsu | A pair of identical tiles | East-East |
+| Mentsu | A completed group, usually a sequence or triplet | 2-3-4 Manzu |
+| Jantou | The pair in a standard winning hand | White-White |

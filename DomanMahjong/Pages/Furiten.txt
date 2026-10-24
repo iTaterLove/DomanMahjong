@@ -1,1 +1,0 @@
-A rule that disables a player's ability to win by discard, due to the presence of a winning tile in the discard and/or the declining of a win during riichi. 

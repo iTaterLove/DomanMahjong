@@ -1,0 +1,15 @@
+
+
+| Tile | Name | Type |
+| --- | --- | --- |
+| Characters | Manzu | Suited tile 1-9 |
+| Circles | Pinzu | Suited tile 1-9 |
+| Bamboo | Souzu | Suited tile 1-9 |
+| North |   | Honor |
+| East |   | Honor |
+| South |   | Honor |
+| West |   | Honor |
+| White Dragon |   | Honor |
+| Green Dragon |   | Honor |
+| Red Dragon |   | Honor |
+| Red Fives |   | Special tile |

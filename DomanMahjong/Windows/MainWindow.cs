@@ -127,7 +127,7 @@ public class MainWindow : Window, IDisposable
                         break;
                 }
             }
- 
+  
             ImGui.SetWindowFontScale(1f);
         }
         ImGui.EndChild();   // always call EndChild, even if BeginChild returned false

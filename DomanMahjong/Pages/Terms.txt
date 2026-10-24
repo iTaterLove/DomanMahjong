@@ -1,0 +1,10 @@
+| Term | Meaning |
+| --- | --- |
+| Tehai | A player's concealed hand. |
+| Tenpai | A hand that is one tile away from winning. |
+| Tsumo | Winning on a drawn tile. |
+| Riichi | A declaration made by a player with a closed hand in tenpai - the player bets a 1,000 point bat to score more later. |
+| Ron | Winning off of another player's discard. |
+| Yaku | A condition or pattern required to win. |
+| Dora | Bonus tiles that increase a hand's value but do not qualify as yaku. |
+| Furiten | A restriction preventing a player from winning by ron - this is a state of the hand, not a specific tile.|

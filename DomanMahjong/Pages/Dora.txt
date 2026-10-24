@@ -1,1 +1,0 @@
-A feature to the game which rewards han to a hand, while in possession of tiles indicated by the revealed tile from the dead wall. 
